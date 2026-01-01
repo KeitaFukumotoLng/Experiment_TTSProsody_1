@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>事前語彙テスト</title>
+
+  <script src="dist/jspsych.js"></script>
+  <script src="dist/plugin-html-keyboard-response.js"></script>
+  <script src="dist/plugin-survey-text.js"></script>
+  <link rel="stylesheet" href="dist/jspsych.css">
+</head>
+
+<body></body>
+
+<script>
+  // //まず，データをcsv.ファイルでローカルに保存する関数を先に作っておくよ
+  // function saveData() {
+  //   jsPsych.data.get().localSave('csv', 'data.csv');
+  // }
+
+  //jsPsychを呼び起こす
+  const jsPsych = initJsPsych({
+    on_finish: function () {
+      console.log("experiment finished");
+    }
+  });
+
+  //参加者IDを設定
+  const subjectID = {
+    type: jsPsychSurveyText,
+    questions: [
+      {
+        prompt: "事前に配布された参加者IDを入力してください",
+        name: "subject_id",
+        required: true
+      }
+    ],
+    on_finish: function (data) {
+      const id = data.response.subject_id;
+      jsPsych.data.addProperties({
+        subject_id: id
+      });
+    }
+  };
+
+  //教示
+  const instruction = {
+    type: jsPsychHtmlKeyboardResponse,
+    stimulus: `
+    <h2>語彙判断課題</h2>
+    <p><br>これから、ドイツ語の単語が1つずつ（計63問）表示されます。</p>
+    <p><br>
+      <strong>実在する単語</strong>だと思ったら <strong>jキー</strong> を押してください。<br>
+      <strong>実在しない単語</strong>だと思ったら <strong>kキー</strong> を押してください。
+    </p>
+    <p><br>制限時間はありません。できるだけ正確に判断してください。</p>
+    <p>準備ができたら、任意のキーを押して開始してください。</p>
+  `,
+    choices: "ALL_KEYS"
+  };
+
+  //試行
+  fetch("LexTALE.csv")
+    .then(res => res.text())
+    .then(text => {
+
+      const lines = text.trim().split("\n");
+      lines.shift(); // ヘッダ削除
+
+      const trials = lines.map(line => {
+        const [word, real] = line.split(",");
+
+        return {
+          type: jsPsychHtmlKeyboardResponse,
+          stimulus: `<p style="font-size:48px;">${word}</p>`,
+          choices: ['j', 'k'],
+          data: {
+            word: word,
+            real: Number(real)
+          },
+          on_finish: function (data) {
+            // j = 実在語(1), k = 非実在語(0)
+            const response = (data.response === 'j') ? 1 : 0;
+            data.correct = (response === data.real);
+          }
+        };
+      });
+
+      //フィードバック
+      const feedback = {
+        type: jsPsychHtmlKeyboardResponse,
+        stimulus: function () {
+          const d = jsPsych.data.get();
+          const words_correct =
+            d.filter({ real: 1, correct: true }).count();
+          const nonwords_correct =
+            d.filter({ real: 0, correct: true }).count();
+          const score =
+            ((words_correct / 40 * 100) +
+              (nonwords_correct / 20 * 100)) / 2;
+
+          jsPsych.data.addProperties({
+            words_correct,
+            nonwords_correct,
+            lextale_score: score
+          });
+
+          return `
+      <p>これで事前調査は終了です。ご協力ありがとうございました。</p>
+      <p>実在語 正答数：${words_correct} / 40</p>
+      <p>非実在語 正答数：${nonwords_correct} / 20</p>
+      <h3>LexTALEスコア：${score.toFixed(1)}</h3>
+      <h2>Enterキーを押して、画面が白くなってからページを閉じてください。</h2>
+    `;
+        },
+        choices: ["Enter"],
+        on_start: function () {
+          saveData(); // ここでデータ送信　関数は以下で定義してるよ
+        }
+      };
+
+      // いよいよ実行だ
+      jsPsych.run([subjectID, instruction, ...trials, feedback]);
+    });
+
+
+
+  //データをGoogle Apps Scriptに送る関数「saveData」
+  function saveData() {
+    //すべてのデータ行（Array）を取得
+    const allData = jsPsych.data.get().values();
+
+    //最後に記録された subject_id と lextale_score を探す
+    //(addPropertiesで追加したデータは、すべての行に含まれます)
+    const lastTrialData = allData[allData.length - 1];
+
+    fetch("https://script.google.com/macros/s/AKfycbycN1oXBAnceQVrCekCUm4XaXQf5ABwY2vdAtgGcHocMB9DlX8I-HPGncTum50t3RFT/exec", {
+      method: "POST",
+      mode: "no-cors", // 重要：ブラウザのCORSエラーを回避するため
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        subject_id: lastTrialData.subject_id,
+        lextale_score: lastTrialData.lextale_score
+      })
+    })
+      .then(() => console.log("Data sent successfully"))
+      .catch(err => console.error("Fetch error:", err));
+  }
+  
+
+</script>
+
+</html>
