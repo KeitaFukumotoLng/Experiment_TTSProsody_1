@@ -97,7 +97,7 @@
     selectedPrac.forEach(i => {
         timeline.push({
             type: jsPsychAudioKeyboardResponse,
-            stimulus: `Stimuli_Task2_prac/P${String(i).padStart(2, '0')}.wav`,
+            stimulus: `../Stimuli_Task2_prac/P${String(i).padStart(2, '0')}.wav`,
             choices: "NO_KEYS",
             trial_ends_after_audio: true,
             prompt: '<div style="font-size:40px;">+</div>',
@@ -105,7 +105,7 @@
         });
         timeline.push({
             type: jsPsychAudioKeyboardResponse,
-            stimulus: `Stimuli_Task2_prac/P${String(i + 1).padStart(2, '0')}.wav`,
+            stimulus: `../Stimuli_Task2_prac/P${String(i + 1).padStart(2, '0')}.wav`,
             choices: "NO_KEYS",
             trial_ends_after_audio: true,
             prompt: '<div style="font-size:40px;">+</div>'
@@ -132,8 +132,8 @@
     // (n, index) と括弧で囲む
     t2Selected.forEach((n, index) => {
         const isSame = Math.random() < 0.5;
-        const s1 = `Stimuli_TTS/S${String(n).padStart(3, '0')}.wav`;
-        const s2 = isSame ? s1 : `Stimuli_TTS/S${String(n + 1).padStart(3, '0')}.wav`;
+        const s1 = `../Stimuli_TTS/S${String(n).padStart(3, '0')}.wav`;
+        const s2 = isSame ? s1 : `../Stimuli_TTS/S${String(n + 1).padStart(3, '0')}.wav`;
         timeline.push({ type: jsPsychAudioKeyboardResponse, stimulus: s1, choices: "NO_KEYS", trial_ends_after_audio: true, prompt: '<div style="font-size:40px;">+</div>', post_trial_gap: 500 });
         timeline.push({ type: jsPsychAudioKeyboardResponse, stimulus: s2, choices: "NO_KEYS", trial_ends_after_audio: true, prompt: '<div style="font-size:40px;">+</div>' });
         timeline.push({
@@ -176,7 +176,7 @@
     selectedPrac3.forEach(i => {
         timeline.push({
             type: jsPsychAudioKeyboardResponse,
-            stimulus: `Stimuli_Task1and3_prac/P${i}.wav`,
+            stimulus: `../Stimuli_Task1and3_prac/P${i}.wav`,
             choices: "NO_KEYS",
             trial_ends_after_audio: true,
             prompt: '<div style="font-size:40px;">+</div>'
@@ -279,5 +279,6 @@
 
     jsPsych.run(timeline);
 </script>
+
 
 </html>
