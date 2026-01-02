@@ -6,14 +6,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>事前語彙テスト</title>
 
-  <script src="../dist/jspsych.js"></script>
-  <script src="../dist/plugin-html-keyboard-response.js"></script>
-  <script src="../dist/plugin-survey-text.js"></script>
-  <link rel="stylesheet" href="../dist/jspsych.css">
-
+  <script src="https://unpkg.com/jspsych@7.3.3"></script>
   
+  <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@1.1.2"></script>
+  <script src="https://unpkg.com/@jspsych/plugin-survey-text@1.1.2"></script>
+  
+  <link rel="stylesheet" href="https://unpkg.com/jspsych@7.3.3/css/jspsych.css">
+<!-- CDNとは「Content Delivery Network（コンテンツ・デリバリー・ネットワーク）」の略。
+簡単に言うと、「インターネット上のどこかにある、公開されたプログラムファイルを借りて使う仕組み」のこと。
+通常、jsPsychで実験を作るには、自分のパソコンの中に dist というフォルダを作って、その中に jspsych.js などのファイルをダウンロードして保存しておく必要がある（ローカル形式）。
+それに対して「CDN形式」は、世界中に設置された専用のサーバー（今回の場合は unpkg.com）から、直接ファイルを読み込む。 -->
 </head>
-
 <body></body>
 
 <script>
@@ -34,7 +37,7 @@
     type: jsPsychSurveyText,
     questions: [
       {
-        prompt: "事前に配布された参加者IDを入力してください",
+        prompt: "配布された参加者IDを入力してください",
         name: "subject_id",
         required: true
       }
@@ -152,18 +155,7 @@
       .then(() => console.log("Data sent successfully"))
       .catch(err => console.error("Fetch error:", err));
   }
-  
 
 </script>
 
 </html>
-
-
-
-
-
-
-
-
-
-
