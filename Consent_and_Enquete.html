@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>参加同意および事前アンケート</title>
+    <script src="https://unpkg.com/jspsych@7.3.4"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-html-keyboard-response@1.1.3"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-survey-text@1.1.3"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-survey-multi-choice@1.1.3"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-survey-html-form@1.0.3"></script>
+    <link href="https://unpkg.com/jspsych@7.3.4/css/jspsych.css" rel="stylesheet" type="text/css" />
+    <style>
+        .consent-box {
+            max-width: 800px;
+            text-align: left;
+            margin: 20px auto;
+            padding: 30px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+            line-height: 1.6;
+            height: 50vh;
+            overflow-y: scroll;
+            font-size: 14px;
+        }
+
+        .consent-box h2 {
+            font-size: 18px;
+            color: #333;
+        }
+
+        .consent-box h3 {
+            font-size: 16px;
+            color: #333;
+        }
+
+        h2,
+        h3 {
+            color: #333;
+        }
+
+        /* アンケート画面のスタイル */
+        .survey-container {
+            text-align: left;
+            max-width: 600px;
+            margin: auto;
+        }
+
+        .survey-item {
+            margin-bottom: 25px;
+        }
+
+        .survey-label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+
+        .radio-group {
+            margin-top: 5px;
+        }
+
+        .radio-group label {
+            margin-right: 20px;
+        }
+    </style>
+</head>
+
+<body></body>
+<script>
+    const jsPsych = initJsPsych();
+
+    var timeline = [];
+
+    // --- 0. 冒頭の挨拶画面 ---
+    var welcome = {
+        type: jsPsychHtmlKeyboardResponse,
+        stimulus: `
+      <div style="font-size: 24px; line-height: 1.8;">
+        <p><strong>調査にご協力いただき，ありがとうございます。</strong></p>
+        <p style="font-size: 18px;">これから，本研究についての説明を行います。</p>
+        <br>
+        <p style="font-size: 18px;"><b>Enterキー</b>を押して次の画面に進んでください。</p>
+      </div>
+    `,
+        choices: ['Enter']
+    };
+    timeline.push(welcome);
+
+    // --- 1. 研究の説明 ＋ 同意チェック ---
+    var consent_trial = {
+        type: jsPsychSurveyMultiChoice,
+        questions: [
+            {
+                prompt: `
+          <div class="consent-box">
+            <h2 style="text-align: center;">本研究について</h2>
+            <h3>１．研究課題名</h3>
+            <p>「Text-to-Speech合成音声を活用したプロソディ学習にかんする検討」</p>
+            <h3>２．研究の目的・意義</h3>
+            <p>本研究の目的は，AIによる合成音声を活用した外国語学習の可能性を検討することです。</p>
+            <h3>３．調査の方法および内容</h3>
+            <p>調査は，オンラインで，参加者個人のデバイスを使用しておこないます。調査は以下の4つの段階に分かれます。</p>
+            <ol>
+              <li>事前アンケート（所要時間1分未満）</li>
+              <li>習熟度チェック用の語彙テスト（所要時間2分）</li>
+              <li>ドイツ語の音声を聞いて質問に答える課題（所要時間3分）</li>
+              <li><strong>（後日実施）</strong>ドイツ語の音声を聞いて質問に答える課題（所要時間5分）</li>
+            </ol>
+            <h3>４．危険性ならびに不利益</h3>
+            <p>調査への参加にともない，参加者に危害や不利益が生じる可能性はありません。</p>
+            <h3>５．調査への参加同意およびその撤回</h3>
+            <p>調査への参加は任意です。調査への参加に一度同意した後であっても，参加者の自由な意思によって，それをいつでも不利益なく，理由の如何にかかわらず撤回することができます。</p>
+            <p>同意を撤回される場合は，その旨を研究実施者にお申し出ください。その場合，その方のデータをすべて分析対象から除外し，個人が特定されない形で廃棄します。ただし，研究成果の発表後には，データは完全に匿名化されて特定できない状態になるため，個人のデータを廃棄することはできません。</p>
+            <h3>６．謝礼</h3>
+            <p>この研究は授業の一環で行われるため，調査参加者への謝礼はありません。</p>
+            <h3>７．調査結果の使用及びプライバシーの保護</h3>
+            <p>研究の設計上，参加者の氏名および年齢，外国語の学習歴にかんする情報を取得します。</p>
+            <p>氏名は，調査の第3段階目において個人にオンライン実験用のURLを送付する目的にのみ使用されます。</p>
+            <p>調査終了後のデータ分析および研究成果の公表において，個人を特定できる情報を利用することはありません。また，取得されたデータは個人が特定されない形で保存・処理されます。</p>
+            <h3>８．研究に関する資料の開示</h3>
+            <p>調査参加者のうち，希望される方には，研究計画についての資料を開示します。</p>
+            <h3>９．研究実施者</h3>
+            <p>福本啓太（東京都立大学 人文社会学部 人間社会学科 言語科学教室 2年）<br>
+            Eメールアドレス：fukumoto-keita@ed.tmu.ac.jp</p>
+          </div>
+          <p>上記の調査内容・条件をすべて読み、調査への参加に同意される場合は以下にチェックをお願いします。</p>
+        `,
+                options: ["同意して調査に参加します"],
+                name: 'consent',
+                required: true
+            }
+        ],
+        button_label: '次へ進む'
+    };
+    timeline.push(consent_trial);
+
+    // --- 同意後の感謝メッセージ ---
+    var after_consent = {
+        type: jsPsychHtmlKeyboardResponse,
+        stimulus: `
+            <div style="font-size: 20px; line-height: 1.8; max-width: 600px; margin: auto;">
+                <p>調査参加に同意いただき，ありがとうございます。</p>
+                <p>本日行う調査は以下の3つです。</p>
+                <div style="text-align: left; display: inline-block; margin: 20px 0;">
+                    <p style="margin: 5px 0;">① 事前アンケート（所要時間1分未満）</p>
+                    <p style="margin: 5px 0;">② 習熟度チェック用の語彙テスト（所要時間2分）</p>
+                    <p style="margin: 5px 0;">③ ドイツ語の音声を聞いて質問に答える課題（所要時間3分）</p>
+                </div>
+                <br>
+                <p style="font-size: 20px;"><b>Enterキー</b>を押して，①事前アンケートを始めます。</p>
+            </div>
+        `,
+        choices: ['Enter']
+    };
+    timeline.push(after_consent);
+
+    // --- 統合アンケート（1画面ですべて回答） ---
+    var pre_survey = {
+        type: jsPsychSurveyHtmlForm,
+        html: `
+            <div class="survey-container">
+                <div class="survey-item">
+                    <label class="survey-label">お名前を入力してください。</label>
+                    <input name="user_name" type="text" required>
+                </div>
+                <div class="survey-item">
+                    <label class="survey-label">年齢を入力してください。※数字のみ（例: 20）</label>
+                    <input name="age" type="text" required>
+                </div>
+                <div class="survey-item">
+                    <label class="survey-label">"ドイツ語以外"の言語の学習歴があればすべて教えてください。<p>（例: 英語6年、フランス語1年）</p></label>
+                    <input name="other_languages" type="text" required>
+                </div>
+                <div class="survey-item">
+                    <label class="survey-label">"ドイツ語"の学習歴はありますか？</label>
+                    <div class="radio-group">
+                        <input type="radio" id="g_yes" name="german_history" value="ある" required>
+                        <label for="g_yes">ある</label>
+                        <input type="radio" id="g_no" name="german_history" value="なし" required>
+                        <label for="g_no">なし</label>
+                    </div>
+                </div>
+            </div>
+        `,
+        button_label: '次へ',
+        // 【重要】ここを修正：name ではなく data オブジェクト内に記述します
+        data: { name: 'pre_survey' },
+        on_finish: function (data) {
+            const now = new Date();
+            const dd = now.getDate().toString().padStart(2, '0');
+            const hh = now.getHours().toString().padStart(2, '0');
+            const mm = now.getMinutes().toString().padStart(2, '0');
+            const ss = now.getSeconds().toString().padStart(2, '0');
+
+            let prefix = (data.response.german_history === 'ある') ? "1" : "2";
+            let generatedID = prefix + dd + hh + mm + ss;
+
+            jsPsych.data.addProperties({ subject_id: generatedID });
+        }
+    };
+    timeline.push(pre_survey);
+
+    // --- 4. 完了画面 ＋ リダイレクト ---
+    var debrief = {
+        type: jsPsychHtmlKeyboardResponse,
+        stimulus: function () {
+            // subject_idを確実に取得
+            const id = jsPsych.data.get().last(1).values()[0].subject_id ||
+                jsPsych.data.get().filter({ name: 'pre_survey' }).values()[0].subject_id;
+            return `
+                <div style="font-size: 20px;">
+                  <p>回答が完了しました。ご協力ありがとうございました。</p>
+                  <p>あなたの参加者IDを発行しました：</p>
+                  <p style="font-size: 32px; color: #ff0000; font-weight: bold;">${id}</p>
+                  <p>このIDは，<strong>今後の調査でも使用</strong>します。メモまたはスクリーンショットなどで<strong>必ず記録</strong>をしておいてください。</p>
+                  <br>
+                  <p><b>Enterキー</b>を押すと、調査②語彙判断課題のページへ移動します。</p>
+                </div>
+            `;
+        },
+        choices: ['Enter'],
+        on_finish: function () {
+            const all_data = jsPsych.data.get().values();
+            const survey_trial = jsPsych.data.get().filter({ name: 'pre_survey' }).values()[0];
+            const gas_url = "https://script.google.com/macros/s/AKfycbwse1NlaBqeIx7MvFJWaYd6BtX_k3okfmOWeFLuHTBaLvpbW-Ee19DSK4t6mBq7NqxZ/exec";
+
+            // データ送信
+            fetch(gas_url, {
+                method: "POST",
+                mode: "no-cors",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(all_data)
+            })
+                .then(() => {
+                    // 送信成功（no-corsの場合は成否に関わらずここに来る）
+                    if (survey_trial && survey_trial.response) {
+                        const history = survey_trial.response.german_history;
+                        if (history === 'ある') {
+                            window.location.href = "https://keitafukumotolng.github.io/TTSProsody/pretest_advanced/";
+                        } else {//学習歴の無いひとを，この時点で，50%の確率でtts(url1) or human(url2)に割り振る
+                            const url1 = "https://forms.gle/xom6EFnnygW7zzxN8";
+                            const url2 = "https://forms.gle/8r7QEDJW8HdbHnAdA";
+                            if (Math.random() < 0.5) {
+                                window.location.href = url1;
+                            } else {
+                                window.location.href = url2;
+                            }
+
+                        }
+                    }
+                })
+                .catch((err) => {
+                    console.error("Fetch Error:", err);
+                    alert("データの送信に失敗しました。ネット環境を確認し、この画面を閉じずに研究実施者へ連絡してください。");
+                });
+        }
+    };
+    timeline.push(debrief);
+
+    jsPsych.run(timeline);
+</script>
+
+</html>
