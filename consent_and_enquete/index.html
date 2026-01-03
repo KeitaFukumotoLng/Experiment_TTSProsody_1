@@ -82,7 +82,7 @@
         type: jsPsychHtmlKeyboardResponse,
         stimulus: `
       <div style="font-size: 24px; line-height: 1.8;">
-        <p><strong>調査にご協力いただき，ありがとうございます。</strong></p>
+        <p><strong>ご協力いただき，ありがとうございます。</strong></p>
         <p style="font-size: 18px;">これから，本研究についての説明を行います。</p>
         <br>
         <p style="font-size: 18px;"><b>Enterキー</b>を押して次の画面に進んでください。</p>
@@ -145,15 +145,15 @@
         type: jsPsychHtmlKeyboardResponse,
         stimulus: `
             <div style="font-size: 20px; line-height: 1.8; max-width: 600px; margin: auto;">
-                <p>調査参加に同意いただき，ありがとうございます。</p>
-                <p>本日行う調査は以下の3つです。</p>
+                <p>調査参加に同意いただき、ありがとうございます。</p>
+                <p>本日行う調査は以下の<strong>3つ</strong>です。</p>
                 <div style="text-align: left; display: inline-block; margin: 20px 0;">
                     <p style="margin: 5px 0;">① 事前アンケート（所要時間1分未満）</p>
                     <p style="margin: 5px 0;">② 習熟度チェック用の語彙テスト（所要時間2分）</p>
                     <p style="margin: 5px 0;">③ ドイツ語の音声を聞いて質問に答える課題（所要時間3分）</p>
                 </div>
                 <br>
-                <p style="font-size: 20px;"><b>Enterキー</b>を押して，①事前アンケートを始めます。</p>
+                <p style="font-size: 20px;">準備ができたら<b>Enterキー</b>を押して、①事前アンケート を始めてください。</p>
             </div>
         `,
         choices: ['Enter']
@@ -218,9 +218,10 @@
                   <p>回答が完了しました。ご協力ありがとうございました。</p>
                   <p>あなたの参加者IDを発行しました：</p>
                   <p style="font-size: 32px; color: #ff0000; font-weight: bold;">${id}</p>
-                  <p>このIDは，<strong>今後の調査でも使用</strong>します。メモまたはスクリーンショットなどで<strong>必ず記録</strong>をしておいてください。</p>
+                  <p>このIDは、<strong>今後の調査でも使用</strong>します。メモまたはスクリーンショットなどで<strong>必ず記録</strong>をしておいてください。</p>
                   <br>
-                  <p><b>Enterキー</b>を押すと、調査②語彙テストのページへ移動します（数秒かかる場合があります）。</p>
+                  <p>続いて、調査②をおこないます。</p>
+                  <p><b>Enterキー</b>を押すと、調査②語彙テスト のページへ移動します（数秒かかる場合があります）。</p>
                 </div>
             `;
         },
@@ -269,5 +270,6 @@
 </script>
 
 </html>
+
 
 
