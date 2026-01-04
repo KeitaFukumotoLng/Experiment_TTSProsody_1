@@ -122,7 +122,7 @@
     timeline.push(instructionTask1test);
     timeline.push(...countdown);
 
-     //★↓↓↓
+     //★↓↓↓コピペの時，pathの../ってやつと，Humanではなくてttsってことに気を付けてね！！！
 
     const setupTask1test = {
         type: jsPsychCallFunction,
@@ -134,7 +134,7 @@
             for (let i = 1; i <= 72; i++) {
                 // 除外リストに含まれていない場合のみ追加
                 if (!missingFiles.includes(i)) {
-                    pool1.push(`Stimuli_Human_Task1and3/S${String(i).padStart(3, '0')}.wav`);
+                    pool1.push(`../Stimuli_TTS/S${String(i).padStart(3, '0')}.wav`);
                 }
             }
 
@@ -142,7 +142,7 @@
             for (let i = 73; i <= 108; i++) {
                 // 除外リストに含まれていない場合のみ追加
                 if (!missingFiles.includes(i)) {
-                    pool2.push(`Stimuli_Human_Task1and3/S${String(i).padStart(3, '0')}.wav`);
+                    pool2.push(`../Stimuli_TTS/S${String(i).padStart(3, '0')}.wav`);
                 }
             }
 
@@ -246,6 +246,7 @@
 </script>
 
 </html>
+
 
 
 
