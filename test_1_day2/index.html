@@ -123,7 +123,22 @@
     });
 
     // --- Task 2 本番 ---
-    const t2Pool = []; for (let i = 1; i <= 72; i += 2) { t2Pool.push(i); }
+    const t2Pool = []; 
+    
+    //★↓↓↓
+    
+    const missingFiles = [12, 13, 14, 15, 16, 48, 49, 50, 51, 52, 85, 86, 87, 88];
+
+    for (let i = 1; i <= 72; i += 2) {
+        // ペアになる i（奇数）と i+1（偶数）の両方が missingFiles に入っていないかチェック
+        if (!missingFiles.includes(i) && !missingFiles.includes(i + 1)) {
+            t2Pool.push(i);
+        }
+    }
+    
+    //★↑↑↑
+
+    
     const t2Selected = jsPsych.randomization.shuffle(t2Pool).slice(0, 18);
 
     timeline.push(...getCountdown());
@@ -296,4 +311,5 @@
 </script>
 
 </html>
+
 
