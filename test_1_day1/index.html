@@ -125,7 +125,7 @@
     const setupTask1test = {
         type: jsPsychCallFunction,
         func: () => {
-            const pool1 = []; for (let i = 1; i <= 36; i++) pool1.push(`../Stimuli_TTS/S${String(i).padStart(3, '0')}.wav`);
+            const pool1 = []; for (let i = 1; i <= 72; i++) pool1.push(`../Stimuli_TTS/S${String(i).padStart(3, '0')}.wav`);
             const pool2 = []; for (let i = 73; i <= 108; i++) pool2.push(`../Stimuli_TTS/S${String(i).padStart(3, '0')}.wav`);
 
             window.day1Stimuli = jsPsych.randomization.shuffle([
@@ -223,6 +223,7 @@
 </script>
 
 </html>
+
 
 
 
