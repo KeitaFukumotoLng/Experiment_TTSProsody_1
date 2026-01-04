@@ -122,18 +122,41 @@
     timeline.push(instructionTask1test);
     timeline.push(...countdown);
 
+     //★↓↓↓
+
     const setupTask1test = {
         type: jsPsychCallFunction,
         func: () => {
-            const pool1 = []; for (let i = 1; i <= 72; i++) pool1.push(`../Stimuli_TTS/S${String(i).padStart(3, '0')}.wav`);
-            const pool2 = []; for (let i = 73; i <= 108; i++) pool2.push(`../Stimuli_TTS/S${String(i).padStart(3, '0')}.wav`);
+            // 届いていないファイルの除外リスト
+            const missingFiles = [12, 13, 14, 15, 16, 48, 49, 50, 51, 52, 85, 86, 87, 88];
 
+            const pool1 = []; 
+            for (let i = 1; i <= 72; i++) {
+                // 除外リストに含まれていない場合のみ追加
+                if (!missingFiles.includes(i)) {
+                    pool1.push(`Stimuli_Human_Task1and3/S${String(i).padStart(3, '0')}.wav`);
+                }
+            }
+
+            const pool2 = []; 
+            for (let i = 73; i <= 108; i++) {
+                // 除外リストに含まれていない場合のみ追加
+                if (!missingFiles.includes(i)) {
+                    pool2.push(`Stimuli_Human_Task1and3/S${String(i).padStart(3, '0')}.wav`);
+                }
+            }
+
+            // シャッフルして各プールから18個ずつ選択
+            // ※もしプールの残数が18個未満になってもエラーにならないよう shuffle().slice() を使用
             window.day1Stimuli = jsPsych.randomization.shuffle([
                 ...jsPsych.randomization.shuffle(pool1).slice(0, 18).map(s => ({ stim: s })),
                 ...jsPsych.randomization.shuffle(pool2).slice(0, 18).map(s => ({ stim: s }))
             ]);
         }
     };
+
+    //★↑↑↑
+    
     timeline.push(setupTask1test);
 
     let testTrialCounter = 0;
@@ -223,6 +246,7 @@
 </script>
 
 </html>
+
 
 
 
