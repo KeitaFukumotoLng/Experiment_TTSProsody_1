@@ -121,7 +121,7 @@
             <p>この研究は授業の一環で行われるため，調査参加者への謝礼はありません。</p>
             <h3>７．調査結果の使用及びプライバシーの保護</h3>
             <p>研究の設計上，参加者の氏名および年齢，外国語の学習歴にかんする情報を取得します。</p>
-            <p>氏名は，調査の第3段階目において個人にオンライン実験用のURLを送付する目的にのみ使用されます。</p>
+            <p>氏名は，調査④の段階において個人にオンライン実験用のURLを送付する目的にのみ使用されます。</p>
             <p>調査終了後のデータ分析および研究成果の公表において，個人を特定できる情報を利用することはありません。また，取得されたデータは個人が特定されない形で保存・処理されます。</p>
             <h3>８．研究に関する資料の開示</h3>
             <p>調査参加者のうち，希望される方には，研究計画についての資料を開示します。</p>
@@ -144,7 +144,7 @@
     var after_consent = {
         type: jsPsychHtmlKeyboardResponse,
         stimulus: `
-            <div style="font-size: 20px; line-height: 1.8; max-width: 600px; margin: auto;">
+            <div style="font-size: 20px; line-height: 1.8; max-width: 700px; margin: auto;">
                 <p>調査参加に同意いただき、ありがとうございます。</p>
                 <p>本日行う調査は以下の<strong>3つ</strong>です。</p>
                 <div style="text-align: left; display: inline-block; margin: 20px 0;">
@@ -153,7 +153,7 @@
                     <p style="margin: 5px 0;">③ ドイツ語の音声を聞いて質問に答える課題（所要時間3分）</p>
                 </div>
                 <br>
-                <p style="font-size: 20px;">準備ができたら<b>Enterキー</b>を押して、①事前アンケート を始めてください。</p>
+                <p>準備ができたら<b>Enterキー</b>を押して、①事前アンケート を始めてください。</p>
             </div>
         `,
         choices: ['Enter']
@@ -215,7 +215,7 @@
                 jsPsych.data.get().filter({ name: 'pre_survey' }).values()[0].subject_id;
             return `
                 <div style="font-size: 20px;">
-                  <p>回答が完了しました。ご協力ありがとうございました。</p>
+                  <p>回答が完了しました。ご協力ありがとうございます。</p>
                   <p>あなたの参加者IDを発行しました：</p>
                   <p style="font-size: 32px; color: #ff0000; font-weight: bold;">${id}</p>
                   <p>このIDは、<strong>今後の調査でも使用</strong>します。メモまたはスクリーンショットなどで<strong>必ず記録</strong>をしておいてください。</p>
@@ -270,6 +270,10 @@
 </script>
 
 </html>
+
+
+
+
 
 
 
